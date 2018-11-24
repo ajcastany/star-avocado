@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 from random import randint
 import getch
+import sys
+from colorama import init
+init(strip=not sys.stdout.isatty()) # strip colors if stdout is redirected
+from termcolor import cprint
+from pyfiglet import figlet_format
 """================================================================================
 
                               V  A  R  I  A  B  L  E  S
@@ -175,45 +180,46 @@ def movement(mov_coor=mov_coor):
             discover(mov_coor)
             print("right")
 
-    print("Which way you want to go?")
-    move = input("Up, Down, Left, Right?: ")
-    if move.lower() in "up":
-        mov_up()
-        movement()
-    elif move.lower() in "down":
-        mov_down()
-        movement()
-    elif move.lower() in "left":
-        mov_left()
-        movement()
-    elif move.lower() in "right":
-        mov_right()
-        movement()
-    elif move == "":
-        print("exit movement()")
-    else:
-        print("exit movement()")
 
-        #for the /real/ terminal only.
     # print("Which way you want to go?")
-    # print("Use (WASD) keys to move")
-    # move = getch.getch()        #
-    # if move.lower() in "w":
+    # move = input("Up, Down, Left, Right?: ")
+    # if move.lower() in "up":
     #     mov_up()
     #     movement()
-    # elif move.lower() in "s":
+    # elif move.lower() in "down":
     #     mov_down()
     #     movement()
-    # elif move.lower() in "a":
+    # elif move.lower() in "left":
     #     mov_left()
     #     movement()
-    # elif move.lower() in "d":
+    # elif move.lower() in "right":
     #     mov_right()
     #     movement()
     # elif move == "":
     #     print("exit movement()")
     # else:
     #     print("exit movement()")
+
+        #for the /real/ terminal only.
+    print("Which way you want to go?")
+    print("Use (WASD) keys to move")
+    move = getch.getch()        #
+    if move.lower() in "w":
+        mov_up()
+        movement()
+    elif move.lower() in "s":
+        mov_down()
+        movement()
+    elif move.lower() in "a":
+        mov_left()
+        movement()
+    elif move.lower() in "d":
+        mov_right()
+        movement()
+    elif move == "":
+        print("exit movement()")
+    else:
+        print("exit movement()")
 
 
 
@@ -278,8 +284,10 @@ def main():
     global mov_coor
     global planets_dict
     ans = ''
-
-    empty_space(start_pos)
+    cprint(figlet_format('STAR AVOCADO', font='starwars'),
+       'yellow', 'on_red', attrs=['bold'])
+    print("WELCOME")
+    avocado(start_pos)
     make_maze()
 
     while True:
