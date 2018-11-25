@@ -105,7 +105,7 @@ def discover(coordinate):
     else:
         if roll in lucky_number:
             # p3 = Planets(name_gen(), coordinate)            # debugging line
-            create_planet(name_gen(), coordinate)
+            create_planet(name_gen(), mov_coor)
         elif roll == 0:
             empty_space(coordinate)
             make_maze()
@@ -122,104 +122,202 @@ def discover(coordinate):
             print("It's empty!")
 
 
-def movement(mov_coor=mov_coor):
+def movement():
+    global mov_coor
 
-    def mov_up(mov_coor=mov_coor):
+    def mov_up():
+        global mov_coor
         x = mov_coor[1]
         y = mov_coor[0]
         if y - 1 == -1:
             make_maze()
             print("It's the end of the Universe!")
-            print("Go Down, Left or Right")
-            movement()
-
         else:
-            mov_coor[0] -= 1
+            y -= 1
+            mov_coor = [y,x]
+            print("up")
             discover(mov_coor)
-            print("Up")
+            return mov_coor
 
-    def mov_left(mov_coor=mov_coor):
+
+    def mov_left():
+        global mov_coor
         x = mov_coor[1]
         y = mov_coor[0]
         if x - 1 == 30:
             make_maze()
             print("It's the end of the Universe!")
-            print("Go Up, Down or Right")
-            movement()
-
         else:
-            mov_coor[1] -= 1
-            discover(mov_coor)
+            x -= 1
+            mov_coor = [y,x]
             print("Left")
+            discover(mov_coor)
+            return mov_coor
 
-    def mov_down(mov_coor = mov_coor):
+    def mov_down():
+        global mov_coor
         x = mov_coor[1]
         y = mov_coor[0]
         if y - 1 == 30:
             make_maze()
             print("It's the end of the Universe!")
             print("Go Up, Left or Right")
-            movement()
-
         else:
-            mov_coor[0] += 1
-            discover(mov_coor)
+            y += 1
+            mov_coor = [y,x]
             print("down")
+            discover(mov_coor)
+            return mov_coor
 
-    def mov_right(mov_coor = mov_coor):
+    def mov_right():
+        global mov_coor
         x = mov_coor[1]
         y = mov_coor[0]
         if x + 1 == 30:
             make_maze()
             print("It's the end of the Universe!")
             print("Go Up, Left or Right")
-            movement()
-
         else:
+            y += 1
+            mov_coor = [y,x]
             mov_coor[1] += 1           # I think x+1 is ->
-            discover(mov_coor)
             print("right")
+            discover(mov_coor)
+            return mov_coor
+
+# OLD movement (BROKEN)
+#     def mov_up(mov_coor=mov_coor):
+#         x = mov_coor[1]
+#         y = mov_coor[0]
+#         if y - 1 == -1:
+#             make_maze()
+#             print("It's the end of the Universe!")
+#             print("Go Down, Left or Right")
+#             movement()
+
+#         else:
+#             mov_coor[0] -= 1
+#             discover(mov_coor)
+#             print("Up")
+
+#     def mov_left(mov_coor=mov_coor):
+#         x = mov_coor[1]
+#         y = mov_coor[0]
+#         if x - 1 == 30:
+#             make_maze()
+#             print("It's the end of the Universe!")
+#             print("Go Up, Down or Right")
+#             movement()
+
+#         else:
+#             mov_coor[1] -= 1
+#             discover(mov_coor)
+#             print("Left")
+
+#     def mov_down(mov_coor = mov_coor):
+#         x = mov_coor[1]
+#         y = mov_coor[0]
+#         if y - 1 == 30:
+#             make_maze()
+#             print("It's the end of the Universe!")
+#             print("Go Up, Left or Right")
+#             movement()
+
+#         else:
+#             mov_coor[0] += 1
+#             discover(mov_coor)
+#             print("down")
+
+#     def mov_right(mov_coor = mov_coor):
+#         x = mov_coor[1]
+#         y = mov_coor[0]
+#         if x + 1 == 30:
+#             make_maze()
+#             print("It's the end of the Universe!")
+#             print("Go Up, Left or Right")
+#             movement()
+
+#         else:
+#             mov_coor[1] += 1           # I think x+1 is ->
+#             discover(mov_coor)
+#             print("right")
 
 
+    print("Which way you want to go?")
+    move = input("Up, Down, Left, Right?: ")
+    # print("Use (WASD) keys to move")
+    # move = getch.getch()
+    if move.lower() == "w":
+        mov_up()
+        print("moving up")
+        # discover(mov_coor)
+        movement()
+    elif move.lower() == "s":
+        mov_down()
+        # discover(mov_coor)
+        movement()
+    elif move.lower() == "a":
+        mov_left()
+        # discover(mov_coor)
+        movement()
+    elif move.lower() == "d":
+        mov_right()
+        # discover(mov_coor)
+        movement()
+    elif move == "i":
+        show_planets(mov_coor)
+    elif move == "p":
+        scan_planet(mov_coor)
+    elif move == "":
+        print("exit movement()")
+    else:
+        print("exit movement()")
+
+        #for the /real/ terminal only.
     # print("Which way you want to go?")
-    # move = input("Up, Down, Left, Right?: ")
-    # if move.lower() in "up":
+    # print("Use (WASD) keys to move")
+    # move = getch.getch()        #
+    # if move.lower() in "w":
     #     mov_up()
     #     movement()
-    # elif move.lower() in "down":
+    # elif move.lower() in "s":
     #     mov_down()
     #     movement()
-    # elif move.lower() in "left":
+    # elif move.lower() in "a":
     #     mov_left()
     #     movement()
-    # elif move.lower() in "right":
+    # elif move.lower() in "d":
     #     mov_right()
     #     movement()
+    # elif move == "i":
+    #     show_planets()
+    # elif move == "p":
+    #     scan_planet()
     # elif move == "":
     #     print("exit movement()")
     # else:
     #     print("exit movement()")
 
-        #for the /real/ terminal only.
-    print("Which way you want to go?")
-    print("Use (WASD) keys to move")
-    move = getch.getch()        #
-    if move.lower() in "w":
-        mov_up()
-        movement()
-    elif move.lower() in "s":
-        mov_down()
-        movement()
-    elif move.lower() in "a":
-        mov_left()
-        movement()
-    elif move.lower() in "d":
-        mov_right()
-        movement()
-    elif move == "":
-        print("exit movement()")
-    else:
-        print("exit movement()")
+def scan_planet(mov_coor=mov_coor):
+    for key, value in planets_dict.items():
+        if value.coor == mov_coor:
+            value.Scanned_Planet()
+            print("{:15} {}".format("Name:", value.name))
+            print("{:15} {}".format("Coordinates:", str(value.coor)))
+            print("{:15} {}".format("Atmospher:", value.atmos))
+            print("{:15} {}".format("Life:", value.islife))
+        else:
+            print("no planet here")
+
+def show_planets(mov_coor=mov_coor):
+    for key, value in planets_dict.items():
+#        if value.coor == mov_coor:
+        print("{:15} {}".format("Name:", value.name))
+        print("{:15} {}".format("Coordinates:", str(value.coor)))
+        print("{:15} {}".format("Atmospher:", value.atmos))
+        print("{:15} {}".format("Life:", value.islife))
+        # else:
+        #     print("There is no Planet on {}".format(mov_coor))
 
 
 
@@ -258,6 +356,7 @@ def name_gen():
 
 def create_planet(name, coordinate):
     global planets_dict
+    global mov_coor
 
     def planet_lookup(coordinate):
         for key, value in planets_dict.items():
@@ -273,7 +372,7 @@ def create_planet(name, coordinate):
         l[coordinate[0]][coordinate[1]] = "@"
         make_maze()
         coordinates_list.append(coordinate)
-        planets_dict.update({"Planet_" + (str(len(planets_dict) + 1)) : Planets(name, coordinate)})
+        planets_dict.update({"Planet_" + (str(len(planets_dict) + 1)) : Planets(name, mov_coor)})
         planet_lookup(coordinate)
 
 
@@ -290,15 +389,14 @@ def main():
     empty_space(start_pos)
     make_maze()
 
-    while True:
-        movement(mov_coor)
-        ans = input("do you really want to exit? Y/N > ")
-        if ans.lower() in "qyes":
-            print("Thank you for playing")
-            print("Program Finished")
-            break
-        else:
-            continue
+    movement()
+    ans = input("do you really want to exit? Y/N > ")
+    if ans.lower() in "qyes":
+        print("Thank you for playing")
+        print("Program Finished")
+    else:
+        movement()
+
 
 
 
