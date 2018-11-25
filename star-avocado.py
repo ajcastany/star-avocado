@@ -287,7 +287,7 @@ def main():
     cprint(figlet_format('STAR AVOCADO', font='starwars'),
        'yellow', 'on_red', attrs=['bold'])
     print("WELCOME")
-    avocado(start_pos)
+    empty_space(start_pos)
     make_maze()
 
     while True:
