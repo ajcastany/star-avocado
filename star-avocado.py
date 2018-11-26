@@ -137,7 +137,7 @@ def movement():
             y -= 1
             mov_coor = [y,x]
             print("up")
-            # discover(mov_coor)
+            discover(mov_coor)
             return mov_coor
 
 
@@ -181,7 +181,6 @@ def movement():
         else:
             x += 1
             mov_coor = [y,x]
-            mov_coor[1] += 1           # I think x+1 is ->
             print("right")
             discover(mov_coor)
             return mov_coor
@@ -249,10 +248,10 @@ def movement():
     print("Use (WASD) keys to move")
     move = getch.getch()
     if move.lower() == "w":
-        avocado_sterling()
+        # avocado_sterling()
         mov_up()
         print("moving up")
-        discover(mov_coor)
+        # discover(mov_coor)
 
         movement()
     elif move.lower() == "s":
@@ -304,15 +303,15 @@ def movement():
     # else:
     #     print("exit movement()")
 
-def avocado_sterling():
-    global mov_coor
-    global prev_coor
+# def avocado_sterling():
+#     global mov_coor
+#     global prev_coor
 
-    var = l[prev_coor[0]][prev_coor[1]]
+#     var = l[prev_coor[0]][prev_coor[1]]
 
-    l[mov_coor[0]][mov_coor[1]] = "£"
-    l[prev_coor[0]][prev_coor[1]] = var
-    prev_coor = mov_coor
+#     l[mov_coor[0]][mov_coor[1]] = "£"
+#     l[prev_coor[0]][prev_coor[1]] = var
+#     prev_coor = mov_coor
 
 
 def scan_planet(mov_coor=mov_coor):
@@ -320,10 +319,9 @@ def scan_planet(mov_coor=mov_coor):
     mov_tuple = tuple(mov_coor)
 #    local_list = list(planets_dict[key])
     for key, value in planets_dict.items():
-        if planets_dict[key] == mov_tuple:
+        if key  == mov_tuple:
         # if mov_tuple == mov_coor:
             value.Scanned_Planet()
-    # if planets_dict[key] == mov_tuple:
             print("{:15} {}".format("Name:", value.name))
             print("{:15} {}".format("Coordinates:", str(value.coor)))
             print("{:15} {}".format("Atmospher:", value.atmos))
