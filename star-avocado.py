@@ -63,7 +63,7 @@ def make_maze(l = l):
     print("Life: ", end="")
     for i in range(Avocado.Life):
         print("🖤", sep=" ", end="", flush=True)
-    print("{:>35}\n".format(str(mov_coor)))
+    print("{:>47c}\n".format("Avocado Position: " + str(mov_coor)))
 
 def empty_space(array):
     """Creates an empty string on the l maze
@@ -102,13 +102,14 @@ def discover(coordinate):
 
     global mov_coor
     global l
-    lucky_number = [1, 2, 3]
+    lucky_number = [1, 2]
     roll = randint(0, 12)
 
     if l[coordinate[0]][coordinate[1]] in " ":
         make_maze()
         print("Already visited space")
     elif l[coordinate[0]][coordinate[1]] == "O":
+        make_maze()
         print("Already discovered planet")
     else:
         if roll in lucky_number:
@@ -335,8 +336,8 @@ def scan_planet(mov_coor=mov_coor):
         planets_dict.update({key : Scanned_Planet(planets_dict[key].name, mov_coor, size_gen(), atmos_gen(), life_gen())})
         print("{:15} {}".format("Name:", planets_dict[key].name))
         print("{:15} {}".format("Coordinates:", str(planets_dict[key].coor)))
+        print("{:15} {}".format("Size:", planets_dict[key].size)+ " million Km.")
         print("{:15} {}".format("Atmospher:", planets_dict[key].atmos))
-        print("{:15} {}".format("Size:", planets_dict[key].size))
         print("{:15} {}".format("Life:", planets_dict[key].islife))
     else:
         make_maze()
@@ -399,6 +400,9 @@ def create_planet(name, coordinate):
         for key, value in planets_dict.items():
             if value.coor == coordinate:
                 make_maze()
+                print("========================================")
+                print("P L A N E T   D I S C O V E R E D !")
+                print("========================================")
                 print("Planet {}, Coordinates {}".format(value.name, value.coor))
                 print("{} for debugin".format(key))
 
@@ -462,7 +466,7 @@ class Planets:
 
 
 def size_gen():
-    size = (randint(0, 100))**2
+    size = (randint(0, 101))**2
     return size
 
 def atmos_gen():
@@ -508,7 +512,7 @@ class  Scanned_Planet(Planets):
 
 class StarShipAvocado:
     name = "Avocado"
-    Life = 11
+    Life = 3
     global mov_coor
 
     def __init__(self):
@@ -522,6 +526,13 @@ class StarShipAvocado:
 
     def Damage(self, damg):
         self.Life -= damg
+        print("You LOSE",damg, "Life." )
+        return self.Life
+
+    def Heal(self, heal):
+        self.Life += 1
+        print("You HEAL", heal, "Life.")
+        return self.Life
 
 
 Avocado = StarShipAvocado()
