@@ -53,8 +53,9 @@ l = [['#']*30 for i in range(30)]
 #         return start_pos
 
 
-def make_maze(l = l):
+def make_maze():
     """Prints the current maze"""
+    global l
     global mov_coor
     global Avocado
 
@@ -63,7 +64,7 @@ def make_maze(l = l):
     print("Life: ", end="")
     for i in range(Avocado.Life):
         print("🖤", sep=" ", end="", flush=True)
-    print("{:>47}\n".format("Avocado Position: " + str(mov_coor)))
+    print("{:>45}\n".format("Avocado Position: " + str(Avocado.AvoPos())))
 
 def empty_space(array):
     """Creates an empty string on the l maze
@@ -117,10 +118,11 @@ def discover(coordinate):
             create_planet(name_gen(), mov_coor)
         elif roll == 0:
             empty_space(coordinate)
+            Avocado.Damage(1)
             make_maze()
             print("An asteroid cloud... Maybe this was a planet before?")
             print("A Rock Hits the hull. ")
-            Avocado.Damage(1)
+            print("You lose 1 Life")
 
 
         elif roll == 3:
@@ -128,12 +130,31 @@ def discover(coordinate):
             make_maze()
             print("...Nothing...")
             print("You glare at the emptiness of space.")
+
         elif roll == 4:
             empty_space(coordinate)
+            Avocado.Damage(1)
+            make_maze()
+            print("A nearby star erupts.")
+            print("You are hit by a solar flare")
+            print("You loose 1 Life")
+
+
+        elif roll == 5:
+            empty_space(coordinate)
+            make_maze()
+            print("")
+            print("")
+
+
+        elif roll == 12:
+            empty_space(coordinate)
+            Avocado.Heal(1)
             make_maze()
             print("A star much like the one at home.")
             print("You feel rejuvenated.")
-            Avocado.Heal(1)
+            print("You heal 1 Life")
+
 
         else:
             empty_space(coordinate)
@@ -260,7 +281,7 @@ def movement():
 #             discover(mov_coor)
 #             print("right")
 
-
+    Avocado.AvoPos()
     print("Which way you want to go?")
     # move = input("Up, Down, Left, Right?: ")
     print("Use (WASD) keys to move")
@@ -537,7 +558,7 @@ class StarShipAvocado:
 
     def Damage(self, damg):
         self.Life -= damg
-        print("You LOSE",damg, "Life." )
+#       print("You LOSE",damg, "Life." )
         self.Die()
 
     def Heal(self, heal):
