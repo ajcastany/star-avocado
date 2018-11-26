@@ -19,9 +19,11 @@ start_pos = [14,14]
 mov_coor = start_pos
 planets_dict = {}
 prev_coor = start_pos
+
 l = list()
 
 l = [['#']*30 for i in range(30)]
+var = l[start_pos[0]][start_pos[1]]
 
 """======================================================================
                           M O V E M E N T
@@ -342,15 +344,24 @@ def movement():
     # else:
     #     print("exit movement()")
 
-# def avocado_sterling():
-#     global mov_coor
-#     global prev_coor
+def avocado_sterling_in():
+    global mov_coor
+    global prev_coor
+    global var
 
-#     var = l[prev_coor[0]][prev_coor[1]]
+    var = l[mov_coor[0]][mov_coor[1]]
+    l[mov_coor[0]][mov_coor[1]] = "£"
+    mov_coor = prev_coor
 
-#     l[mov_coor[0]][mov_coor[1]] = "£"
-#     l[prev_coor[0]][prev_coor[1]] = var
-#     prev_coor = mov_coor
+
+def avocado_sterling_out():
+    global mov_coor
+    global prev_coor
+    global var
+
+    l[prev_coor[0]][prev_coor[1]] = var
+    l[mov_coor[0]][mov_coor[1]] = "£"
+    prev_coor = mov_coor
 
 
 def scan_planet(mov_coor=mov_coor):
