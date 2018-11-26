@@ -332,12 +332,12 @@ def scan_planet(mov_coor=mov_coor):
             # planets_dict.update({key: Scanned_Planet()})
     if l[mov_coor[0]][mov_coor[1]] == 'O':
         make_maze()
-        planets_dict.update({key : Scanned_Planet()})
-        print("{:15} {}".format("Name:", value.name))
-        print("{:15} {}".format("Coordinates:", str(value.coor)))
-        print("{:15} {}".format("Atmospher:", value.atmos))
-        print("{:15} {}".format("Size:", value.size))
-        print("{:15} {}".format("Life:", value.islife))
+        planets_dict.update({key : Scanned_Planet(planets_dict[key].name, mov_coor, size_gen(), atmos_gen(), life_gen())})
+        print("{:15} {}".format("Name:", planets_dict[key].name))
+        print("{:15} {}".format("Coordinates:", str(planets_dict[key].coor)))
+        print("{:15} {}".format("Atmospher:", planets_dict[key].atmos))
+        print("{:15} {}".format("Size:", planets_dict[key].size))
+        print("{:15} {}".format("Life:", planets_dict[key].islife))
     else:
         make_maze()
         print("Error: There is a planet here already")
@@ -348,6 +348,7 @@ def show_planets(mov_coor=mov_coor):
 #        if value.coor == mov_coor:
         print("{:15} {}".format("Name:", value.name))
         print("{:15} {}".format("Coordinates:", str(value.coor)))
+        print("{:15} {}".format("Size:", value.size))
         print("{:15} {}".format("Atmospher:", value.atmos))
         print("{:15} {}".format("Life:", value.islife))
         print("\n")
@@ -460,36 +461,42 @@ class Planets:
     #     self.res = resources()
 
 
-def size_gen(self):
-    Planets.size = (randint(0, 100))**2
-    return Planets.size
+def size_gen():
+    size = (randint(0, 100))**2
+    return size
 
-def atmos_gen(self):
+def atmos_gen():
     atmos_list_1 = ["Oxigen present", "Oxigen detected", "Low Oxigen", "No oxigen"]
     atmos_list_2 = ["Poisonous gases detected", "No poisonous gases detected", "Some poisonous gas detected"]
     atmos_list_3 = ["Dry", "water detected", "Sea-Wide Planet"]
     atmos_list_4 = ["Lighting storms common", "No rainy season", "Sand Storms"]
-    Planets.atmos = [atmos_list_1[randint(0,2)], atmos_list_2[randint(0,2)], atmos_list_3[randint(0,2)], atmos_list_4[randint(0,2)]]
+    atmos = [atmos_list_1[randint(0,2)], atmos_list_2[randint(0,2)], atmos_list_3[randint(0,2)], atmos_list_4[randint(0,2)]]
+    atmos_str = ", ".join(str(i) for i in atmos) + "."
+    return atmos_str
 
-def life_gen(self):
+
+def life_gen():
     life_list_1 = ["Microscopic organisms", "Barren", "Only vegetation", "Animals detected", "Dangerous animals"]
-    Planets.islife = [life_list_1[randint(0,4)]]
+    islife = [life_list_1[randint(0,4)]]
+    islife_str = ", ".join(str(i) for i in islife) + "."
+    return islife_str
 
-class  Scanned_Planet:
-        var = "Unknown."
+class  Scanned_Planet(Planets):
+
         def __init__(self, name, coor, size, atmos, life):
-            super().__init__(self, name, coor)
-            self.size = size
-            self.atmos = atmos
-            self.islife = life
-
+            super().__init__(name, coor)
+            var = "Unknown."
             if self.size != var:
                 print("This planet was scanned already!")
                 print("{:15} {}".format("Name:", self.name))
+                print("{:15} {}".format("Size:", self.size))
                 print("{:15} {}".format("Coordinates:", str(self.coor)))
                 print("{:15} {}".format("Atmospher:", self.atmos))
                 print("{:15} {}".format("Life:", self.islife))
             else:
+                self.size = size
+                self.atmos = atmos
+                self.islife = life
 
                 # Planets.size_gen(self)
                 # Planets.atmos_gen(self)
