@@ -18,7 +18,7 @@ move = ""
 start_pos = [14,14]
 mov_coor = start_pos
 planets_dict = {}
-prev_move = "In the beginning there was Darkness"
+prev_coor = start_pos
 l = list()
 
 l = [['#']*30 for i in range(30)]
@@ -117,16 +117,6 @@ def discover(coordinate):
             make_maze()
             print("...Nothing...")
 
-        elif roll == 5:
-            empty_space(coordinate)
-            make_maze()
-            print("A BIG SUN <<DANGER>>")
-
-        elif roll == 6:
-            empty_space(coordinate)
-            make_maze()
-            print("Nebula")
-
         else:
             empty_space(coordinate)
             make_maze()
@@ -135,46 +125,38 @@ def discover(coordinate):
 
 def movement():
     global mov_coor
-    global prev_move
 
     def mov_up():
         global mov_coor
-        global prev_move
-
         x = mov_coor[1]
         y = mov_coor[0]
         if y - 1 == -1:
             make_maze()
             print("It's the end of the Universe!")
-            print("Move Down, Left or Right.")
-
         else:
             y -= 1
             mov_coor = [y,x]
-            prev_move = "Up!"
-            discover(mov_coor)
-            return mov_coor, prev_move
+            print("up")
+            # discover(mov_coor)
+            return mov_coor
 
 
     def mov_left():
         global mov_coor
-        global prev_move
         x = mov_coor[1]
         y = mov_coor[0]
         if x - 1 == 30:
             make_maze()
             print("It's the end of the Universe!")
-            print("Move Up, Right or Down.")
         else:
             x -= 1
             mov_coor = [y,x]
-            prev_move = "Left!"
+            print("Left")
             discover(mov_coor)
-            return mov_coor, prev_move
+            return mov_coor
 
     def mov_down():
         global mov_coor
-        global prev_move
         x = mov_coor[1]
         y = mov_coor[0]
         if y - 1 == 30:
@@ -184,26 +166,25 @@ def movement():
         else:
             y += 1
             mov_coor = [y,x]
-            prev_move = "Down!"
+            print("down")
             discover(mov_coor)
-            return mov_coor, prev_move
+            return mov_coor
 
     def mov_right():
         global mov_coor
-        global prev_move
         x = mov_coor[1]
         y = mov_coor[0]
         if x + 1 == 30:
             make_maze()
             print("It's the end of the Universe!")
-            print("Go Up, Left or Down.")
+            print("Go Up, Left or Right")
         else:
             x += 1
             mov_coor = [y,x]
-#            mov_coor[1] += 1           # I think x+1 is ->
-            prev_move = "Right!"
+            mov_coor[1] += 1           # I think x+1 is ->
+            print("right")
             discover(mov_coor)
-            return mov_coor, prev_move
+            return mov_coor
 
 # OLD movement (BROKEN)
 #     def mov_up(mov_coor=mov_coor):
@@ -262,15 +243,17 @@ def movement():
 #             discover(mov_coor)
 #             print("right")
 
-    print(prev_move)
-    print("Which way you want to go?")
-    move = input("Up, Down, Left, Right?: ")
-    # print("Use (WASD) keys to move")
 
-    # move = getch.getch()
+    print("Which way you want to go?")
+    # move = input("Up, Down, Left, Right?: ")
+    print("Use (WASD) keys to move")
+    move = getch.getch()
     if move.lower() == "w":
+        avocado_sterling()
         mov_up()
-        # discover(mov_coor)
+        print("moving up")
+        discover(mov_coor)
+
         movement()
     elif move.lower() == "s":
         mov_down()
@@ -321,29 +304,32 @@ def movement():
     # else:
     #     print("exit movement()")
 
+def avocado_sterling():
+    global mov_coor
+    global prev_coor
+
+    var = l[prev_coor[0]][prev_coor[1]]
+
+    l[mov_coor[0]][mov_coor[1]] = "£"
+    l[prev_coor[0]][prev_coor[1]] = var
+    prev_coor = mov_coor
+
+
 def scan_planet(mov_coor=mov_coor):
     global planets_dict
     mov_tuple = tuple(mov_coor)
-    # for key, value in planets_dict.items():
-    #     if planets_dict[key] == mov_tuple:
-
-    try:
-        if planets_dict[mov_tuple].size == "Unknown.":  # from Class Planets()
-            planets_dict[mov_tuple].Scanned_Planet()
-            print("======================================================")
-            print("{:15} {}.".format("Name:", planets_dict[mov_tuple].name))
-            print("{:15} {}.".format("Coordinates:", str(planets_dict[mov_tuple].coor)))
-            print("{:15} {}.".format("Atmospher:", planets_dict[mov_tuple].atmos))
-            print("{:15} {}.".format("Life:", planets_dict[mov_tuple].islife))
-            print("{:15} {}.".format("Size:", planets_dict[mov_tuple].size))
-            print("=====================================================")
-        else:
-            print("This Planet was scanned already!!!!!")
-
-    except KeyError:
-
-        print("**********************************************************************")
-        print("No planet here.")
+#    local_list = list(planets_dict[key])
+    for key, value in planets_dict.items():
+        if planets_dict[key] == mov_tuple:
+        # if mov_tuple == mov_coor:
+            value.Scanned_Planet()
+    # if planets_dict[key] == mov_tuple:
+            print("{:15} {}".format("Name:", value.name))
+            print("{:15} {}".format("Coordinates:", str(value.coor)))
+            print("{:15} {}".format("Atmospher:", value.atmos))
+            print("{:15} {}".format("Life:", value.islife))
+    else:
+        print("no planet here")
 
 def show_planets(mov_coor=mov_coor):
     for key, value in planets_dict.items():
@@ -476,10 +462,6 @@ class Planets:
         self.name = name
         self.coor = coordinate
         print("Initizalizing {} on {}".format(self.name, self.coor))
-        Planets.size = "Unknown."
-        Planets.atmos = "Unknown."
-        Planets.islife = "Unknown."
-        Planets.notes = "No notes available"
 
     # def ship_scanner(self, size, atm, live, resources):
     #     self.size = size_gen()
@@ -497,7 +479,7 @@ class Planets:
         atmos_list_2 = ["Poisonous gases detected", "No poisonous gases detected", "Some poisonous gas detected"]
         atmos_list_3 = ["Dry", "water detected", "Sea-Wide Planet"]
         atmos_list_4 = ["Lighting storms common", "No rainy season", "Sand Storms"]
-        Planets.atmos = [atmos_list_1[randint(0,3)], atmos_list_2[randint(0,2)], atmos_list_3[randint(0,2)], atmos_list_4[randint(0,2)]]
+        Planets.atmos = [atmos_list_1[randint(0,2)], atmos_list_2[randint(0,2)], atmos_list_3[randint(0,2)], atmos_list_4[randint(0,2)]]
 
     def life_gen(self):
         life_list_1 = ["Microscopic organisms", "Barren", "Only vegetation", "Animals detected", "Dangerous animals"]
@@ -507,16 +489,26 @@ class Planets:
         var = "Unknown."
         if Planets.size != var:
             print("This planet was scanned already!")
-            # print("{:15} {}".format("Name:", self.name))
-            # print("{:15} {}".format("Coordinates:", str(self.coor)))
-            # print("{:15} {}".format("Atmospher:", self.atmos))
-            # print("{:15} {}".format("Life:", self.islife))
+            print("{:15} {}".format("Name:", self.name))
+            print("{:15} {}".format("Coordinates:", str(self.coor)))
+            print("{:15} {}".format("Atmospher:", self.atmos))
+            print("{:15} {}".format("Life:", self.islife))
         else:
             Planets.size_gen(self)
             Planets.atmos_gen(self)
             Planets.life_gen(self)
 
+"""======================================================================
+                           A V O C A D O
+======================================================================"""
 
+class StarShipAvocado:
+    Name = "Avocado"
+    Life = 10
+    global mov_coor
+
+    def __init__(self):
+        self.name
 main()
 
 # planets_dict = {}
