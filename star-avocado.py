@@ -63,7 +63,7 @@ def make_maze(l = l):
     print("Life: ", end="")
     for i in range(Avocado.Life):
         print("🖤", sep=" ", end="", flush=True)
-    print("{:>47c}\n".format("Avocado Position: " + str(mov_coor)))
+    print("{:>47}\n".format("Avocado Position: " + str(mov_coor)))
 
 def empty_space(array):
     """Creates an empty string on the l maze
@@ -118,12 +118,22 @@ def discover(coordinate):
         elif roll == 0:
             empty_space(coordinate)
             make_maze()
-            print("An asteroid cloud... Maybe this was a planet before")
+            print("An asteroid cloud... Maybe this was a planet before?")
+            print("A Rock Hits the hull. ")
+            Avocado.Damage(1)
 
-        elif roll == 4:
+
+        elif roll == 3:
             empty_space(coordinate)
             make_maze()
             print("...Nothing...")
+            print("You glare at the emptiness of space.")
+        elif roll == 4:
+            empty_space(coordinate)
+            make_maze()
+            print("A star much like the one at home.")
+            print("You feel rejuvenated.")
+            Avocado.Heal(1)
 
         else:
             empty_space(coordinate)
@@ -514,6 +524,7 @@ class StarShipAvocado:
     name = "Avocado"
     Life = 3
     global mov_coor
+    Dead = False
 
     def __init__(self):
         self.name
@@ -527,12 +538,22 @@ class StarShipAvocado:
     def Damage(self, damg):
         self.Life -= damg
         print("You LOSE",damg, "Life." )
-        return self.Life
+        self.Die()
 
     def Heal(self, heal):
-        self.Life += 1
+        self.Life += heal
         print("You HEAL", heal, "Life.")
         return self.Life
+
+    def Die(self):
+        if self.Life == 0:
+            self.Dead = True
+            print("..............................")
+            print("You died......................")
+            print("..............................")
+        else:
+            self.Dead = False
+        return self.Dead, self.Life
 
 
 Avocado = StarShipAvocado()
