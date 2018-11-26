@@ -55,8 +55,15 @@ l = [['#']*30 for i in range(30)]
 
 def make_maze(l = l):
     """Prints the current maze"""
+    global mov_coor
+    global Avocado
+
     for i in l:
         print(" ".join(i))
+    print("Life: ", end="")
+    for i in range(Avocado.Life):
+        print("🖤", sep=" ", end="", flush=True)
+    print("{:>35}\n".format(str(mov_coor)))
 
 def empty_space(array):
     """Creates an empty string on the l maze
@@ -316,17 +323,24 @@ def movement():
 
 def scan_planet(mov_coor=mov_coor):
     global planets_dict
-    mov_tuple = tuple(mov_coor)
+    key = tuple(mov_coor)
 #    local_list = list(planets_dict[key])
-    for key, value in planets_dict.items():
-        if key  == mov_tuple:
+    # for key, value in planets_dict.items():
+
         # if mov_tuple == mov_coor:
-            value.Scanned_Planet()
-            print("{:15} {}".format("Name:", value.name))
-            print("{:15} {}".format("Coordinates:", str(value.coor)))
-            print("{:15} {}".format("Atmospher:", value.atmos))
-            print("{:15} {}".format("Life:", value.islife))
+            # value.Scanned_Planet()
+            # planets_dict.update({key: Scanned_Planet()})
+    if l[mov_coor[0]][mov_coor[1]] == 'O':
+        make_maze()
+        planets_dict.update({key : Scanned_Planet()})
+        print("{:15} {}".format("Name:", value.name))
+        print("{:15} {}".format("Coordinates:", str(value.coor)))
+        print("{:15} {}".format("Atmospher:", value.atmos))
+        print("{:15} {}".format("Size:", value.size))
+        print("{:15} {}".format("Life:", value.islife))
     else:
+        make_maze()
+        print("Error: There is a planet here already")
         print("no planet here")
 
 def show_planets(mov_coor=mov_coor):
@@ -398,28 +412,6 @@ def create_planet(name, coordinate):
         planet_lookup(coordinate)
 
 
-def main():
-    global start_pos
-    global coordinates_list
-    global coordinate
-    global mov_coor
-    global planets_dict
-    ans = ''
-    cprint(figlet_format('STAR AVOCADO', font='starwars'),
-       'yellow', 'on_red', attrs=['bold'])
-    print("WELCOME")
-    empty_space(start_pos)
-    make_maze()
-
-    movement()
-    ans = input("do you really want to exit? Y/N > ")
-    if ans.lower() in "qyes":
-        print("Thank you for playing")
-        print("Program Finished")
-    else:
-        movement()
-
-
 
 # this code randomly generates a position in l.
 # def coordinates():
@@ -468,46 +460,65 @@ class Planets:
     #     self.res = resources()
 
 
-    def size_gen(self):
-        Planets.size = (randint(0, 100))**2
-        return Planets.size
+def size_gen(self):
+    Planets.size = (randint(0, 100))**2
+    return Planets.size
 
-    def atmos_gen(self):
-        atmos_list_1 = ["Oxigen present", "Oxigen detected", "Low Oxigen", "No oxigen"]
-        atmos_list_2 = ["Poisonous gases detected", "No poisonous gases detected", "Some poisonous gas detected"]
-        atmos_list_3 = ["Dry", "water detected", "Sea-Wide Planet"]
-        atmos_list_4 = ["Lighting storms common", "No rainy season", "Sand Storms"]
-        Planets.atmos = [atmos_list_1[randint(0,2)], atmos_list_2[randint(0,2)], atmos_list_3[randint(0,2)], atmos_list_4[randint(0,2)]]
+def atmos_gen(self):
+    atmos_list_1 = ["Oxigen present", "Oxigen detected", "Low Oxigen", "No oxigen"]
+    atmos_list_2 = ["Poisonous gases detected", "No poisonous gases detected", "Some poisonous gas detected"]
+    atmos_list_3 = ["Dry", "water detected", "Sea-Wide Planet"]
+    atmos_list_4 = ["Lighting storms common", "No rainy season", "Sand Storms"]
+    Planets.atmos = [atmos_list_1[randint(0,2)], atmos_list_2[randint(0,2)], atmos_list_3[randint(0,2)], atmos_list_4[randint(0,2)]]
 
-    def life_gen(self):
-        life_list_1 = ["Microscopic organisms", "Barren", "Only vegetation", "Animals detected", "Dangerous animals"]
-        Planets.islife = [life_list_1[randint(0,4)]]
+def life_gen(self):
+    life_list_1 = ["Microscopic organisms", "Barren", "Only vegetation", "Animals detected", "Dangerous animals"]
+    Planets.islife = [life_list_1[randint(0,4)]]
 
-    def Scanned_Planet(self):
+class  Scanned_Planet:
         var = "Unknown."
-        if Planets.size != var:
-            print("This planet was scanned already!")
-            print("{:15} {}".format("Name:", self.name))
-            print("{:15} {}".format("Coordinates:", str(self.coor)))
-            print("{:15} {}".format("Atmospher:", self.atmos))
-            print("{:15} {}".format("Life:", self.islife))
-        else:
-            Planets.size_gen(self)
-            Planets.atmos_gen(self)
-            Planets.life_gen(self)
+        def __init__(self, name, coor, size, atmos, life):
+            super().__init__(self, name, coor)
+            self.size = size
+            self.atmos = atmos
+            self.islife = life
+
+            if self.size != var:
+                print("This planet was scanned already!")
+                print("{:15} {}".format("Name:", self.name))
+                print("{:15} {}".format("Coordinates:", str(self.coor)))
+                print("{:15} {}".format("Atmospher:", self.atmos))
+                print("{:15} {}".format("Life:", self.islife))
+            else:
+
+                # Planets.size_gen(self)
+                # Planets.atmos_gen(self)
+                # Planets.life_gen(self)
 
 """======================================================================
                            A V O C A D O
 ======================================================================"""
 
 class StarShipAvocado:
-    Name = "Avocado"
-    Life = 10
+    name = "Avocado"
+    Life = 11
     global mov_coor
 
     def __init__(self):
         self.name
-main()
+
+    def AvoPos(self):
+        global mov_coor
+        avo_pos = mov_coor
+        return avo_pos
+
+
+    def Damage(self, damg):
+        self.Life -= damg
+
+
+Avocado = StarShipAvocado()
+
 
 # planets_dict = {}
 # def Create_planet(name, coordinate):
@@ -521,3 +532,28 @@ main()
 
 # for key, value in planets_dict.items():
 #     print(key, value.name, value.coor)
+
+def main():
+    global start_pos
+    global coordinates_list
+    global coordinate
+    global mov_coor
+    global planets_dict
+    ans = ''
+    # Print start
+    cprint(figlet_format('STAR AVOCADO', font='starwars'),
+       'yellow', 'on_red', attrs=['bold'])
+    print("WELCOME")
+    empty_space(start_pos)
+    make_maze()
+
+    movement()
+    ans = input("do you really want to exit? Y/N > ")
+    if ans.lower() in "qyes":
+        print("Thank you for playing")
+        print("Program Finished")
+    else:
+        movement()
+
+
+main()
