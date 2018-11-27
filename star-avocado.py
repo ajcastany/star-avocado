@@ -104,23 +104,30 @@ def discover(coordinate):
     Else: it will create an empty_space()"""
 
     global mov_coor
+    global prev_coor
     global l
     lucky_number = [1, 2]
     roll = randint(0, 12)
 
     if l[coordinate[0]][coordinate[1]] in " ":
+        avocado_sterling_in()
         make_maze()
         print("Already visited space")
     elif l[coordinate[0]][coordinate[1]] == "O":
+        prev_coor = mov_coor
+        avocado_sterling_in
         make_maze()
+        avocado_sterling_out()
         print("Already discovered planet")
     else:
         if roll in lucky_number:
             # p3 = Planets(name_gen(), coordinate)            # debugging line
             create_planet(name_gen(), mov_coor)
+            avocado_sterling_in()
         elif roll == 0:
             empty_space(coordinate)
             Avocado.Damage(1)
+            avocado_sterling_in()
             make_maze()
             print("An asteroid cloud... Maybe this was a planet before?")
             print("A Rock Hits the hull. ")
@@ -129,12 +136,14 @@ def discover(coordinate):
 
         elif roll == 3:
             empty_space(coordinate)
+            avocado_sterling_out()
             make_maze()
             print("...Nothing...")
             print("You glare at the emptiness of space.")
 
         elif roll == 4:
             empty_space(coordinate)
+            avocado_sterling_out()
             Avocado.Damage(1)
             make_maze()
             print("A nearby star erupts.")
@@ -144,13 +153,15 @@ def discover(coordinate):
 
         elif roll == 5:
             empty_space(coordinate)
+            avocado_sterling_out()
             make_maze()
-            print("")
-            print("")
+            print("Radiation")
+            print("Radiation description")
 
 
         elif roll == 12:
             empty_space(coordinate)
+            avocado_sterling_out()
             Avocado.Heal(1)
             make_maze()
             print("A star much like the one at home.")
@@ -160,6 +171,7 @@ def discover(coordinate):
 
         else:
             empty_space(coordinate)
+            avocado_sterling_in()
             make_maze()
             print("It's empty!")
 
@@ -177,6 +189,7 @@ def movement():
         else:
             y -= 1
             mov_coor = [y,x]
+            avocado_sterling_out()
             print("up")
             discover(mov_coor)
             return mov_coor
@@ -222,6 +235,7 @@ def movement():
         else:
             x += 1
             mov_coor = [y,x]
+            avocado_sterling_out
             print("right")
             discover(mov_coor)
             return mov_coor
@@ -284,6 +298,7 @@ def movement():
 #             print("right")
 
     Avocado.AvoPos()
+#    avocado_sterling_in()
     print("Which way you want to go?")
     # move = input("Up, Down, Left, Right?: ")
     print("Use (WASD) keys to move")
@@ -349,9 +364,10 @@ def avocado_sterling_in():
     global prev_coor
     global var
 
-    var = l[mov_coor[0]][mov_coor[1]]
+    var = l[prev_coor[0]][prev_coor[1]]
     l[mov_coor[0]][mov_coor[1]] = "£"
-    mov_coor = prev_coor
+    prev_coor = mov_coor
+    return prev_coor
 
 
 def avocado_sterling_out():
@@ -361,7 +377,7 @@ def avocado_sterling_out():
 
     l[prev_coor[0]][prev_coor[1]] = var
     l[mov_coor[0]][mov_coor[1]] = "£"
-    prev_coor = mov_coor
+#    prev_coor = mov_coor
 
 
 def scan_planet(mov_coor=mov_coor):
@@ -436,11 +452,13 @@ def name_gen():
 def create_planet(name, coordinate):
     global planets_dict
     global mov_coor
+    global prev_coor
     key = tuple(coordinate)
 
     def planet_lookup(coordinate):
         for key, value in planets_dict.items():
             if value.coor == coordinate:
+
                 make_maze()
                 print("========================================")
                 print("P L A N E T   D I S C O V E R E D !")
@@ -449,10 +467,13 @@ def create_planet(name, coordinate):
                 print("{} for debugin".format(key))
 
     if l[coordinate[0]][coordinate[1]] == 'O':
+        avocado_sterling_in
         make_maze()
         print("Error: There is a planet here already")
     else:
+        prev_coor = coordinate   # if it breaks this is why
         l[coordinate[0]][coordinate[1]] = "O"
+        avocado_sterling_in()
         make_maze()
         coordinates_list.append(coordinate)
         planets_dict.update({key : Planets(name, mov_coor)})
@@ -616,6 +637,7 @@ def main():
        'yellow', 'on_red', attrs=['bold'])
     print("WELCOME")
     empty_space(start_pos)
+    avocado_sterling_in()
     make_maze()
 
     movement()
