@@ -120,6 +120,10 @@ def discover(coordinate):
             empty_space(coordinate)
             Avocado.Damage(1)
             make_maze()
+            Avocado.Die()
+            if Avocado.Dead == True:
+                print("Game Over")
+                quit()
             print("An asteroid cloud... Maybe this was a planet before?")
             print("A Rock Hits the hull. ")
             print("You lose 1 Life")
