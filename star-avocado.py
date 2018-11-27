@@ -62,7 +62,7 @@ def make_maze():
     for i in l:
         print(" ".join(i))
     print("Life: ", end="")
-    if Avocado.Die == True:
+    if Avocado.Dead == True:
         print("You Died", end="")
     else:
         for i in range(Avocado.Life):
