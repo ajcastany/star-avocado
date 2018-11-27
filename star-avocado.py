@@ -62,8 +62,11 @@ def make_maze():
     for i in l:
         print(" ".join(i))
     print("Life: ", end="")
-    for i in range(Avocado.Life):
-        print("🖤", sep=" ", end="", flush=True)
+    if Avocado.Die == True:
+        print("You Died", end="")
+    else:
+        for i in range(Avocado.Life):
+            print("🖤", sep=" ", end="", flush=True)
     print("{:>45}\n".format("Avocado Position: " + str(Avocado.AvoPos())))
 
 def empty_space(array):
