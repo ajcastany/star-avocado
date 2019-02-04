@@ -52,11 +52,11 @@ If you run out of Life(🖤) you will die.
 
 ---
 
-[welcome-screen]: img/welcome-screen.png "Welcome screen"
-[new-sector]: img/new-sector.png "New sector"
-[new-planet]: img/new-planet.png "New Planet"
-[scan-planet]: img/scan-planet.png "Scan Planet"
-[planet-list]: img/planet-list.png "Planet list"
-[take-damage]: img/take-damage.png "Take Damage"
-[heal]: img/heal.png "Healing"
-[you-died]: img/you-died.png "You Died"
+[welcome-screen]: /img/welcome-screen.png "Welcome screen"
+[new-sector]: /img/new-sector.png "New sector"
+[new-planet]: /img/new-planet.png "New Planet"
+[scan-planet]: /img/scan-planet.png "Scan Planet"
+[planet-list]: /img/planet-list.png "Planet list"
+[take-damage]: /img/take-damage.png "Take Damage"
+[heal]: /img/heal.png "Healing"
+[you-died]: /img/you-died.png "You Died"
