@@ -12,6 +12,8 @@ Once completed, it will use React instead of the CLI to provide the user interfa
 
 ## Usage
 
+Download or clone this repository with `git clone https://github.com/ajcastany/star-avocado.git`
+
 Simply run in your terminal `python3 star-avocado.py`
 
 ## How to Play
